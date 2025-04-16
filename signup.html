@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign up for A Local Help Hub to join your campus community. Request or offer help instantly with verified accounts—borrow a charger, share notes, or get emergency support.">
+    <meta name="keywords" content="campus signup, community help signup, peer-to-peer assistance, student verification">
+    <meta name="author" content="A Local Help Hub">
+    <title>Sign Up | A Local Help Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        a, button {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 24px;
+            color: #2563eb;
+        }
+        .header .nav-links a {
+            margin-left: 16px;
+            font-size: 14px;
+            color: #1a1a1a;
+            transition: color 0.3s;
+        }
+        .header .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        /* Signup Section */
+        .signup-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+        }
+        .signup-container {
+            background: #fff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .signup-container h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+        .signup-container p {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #6b7280;
+        }
+
+        /* Progress Indicator */
+        .progress {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .progress .step {
+            font-size: 14px;
+            color: #6b7280;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #e5e7eb;
+            transition: background 0.3s, color 0.3s;
+        }
+        .progress .step.active {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        /* Forms */
+        .signup-form, .id-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .signup-form input, .signup-form select, .signup-form textarea {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+        .signup-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .signup-form input:focus, .signup-form select:focus, .signup-form textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .id-form input[type="file"] {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .id-form p {
+            font-size: 14px;
+            color: #6b7280;
+            text-align: left;
+        }
+        .form-error {
+            color: #dc2626;
+            font-size: 14px;
+            text-align: left;
+            display: none;
+        }
+        .form-error.active {
+            display: block;
+        }
+        .signup-form button, .id-form button {
+            padding: 12px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .signup-form button:hover, .id-form button:hover {
+            background: #1d4ed8;
+        }
+        .login-link {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .login-link a {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 24px;
+            text-align: center;
+        }
+        .footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .footer .footer-links a {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+        .footer p {
+            font-size: 12px;
+            color: #d1d5db;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .header .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+            .signup-container {
+                padding: 24px;
+            }
+            .signup-container h2 {
+                font-size: 24px;
+            }
+            .progress {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="/" class="logo">A Local Help Hub</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/how-it-works">How It Works</a>
+            <a href="/community">Community</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+    </header>
+
+    <!-- Signup Section -->
+    <section class="signup-section">
+        <div class="signup-container">
+            <h1>Join Your Local Help Hub</h1>
+            <p>Create an account to request or offer help instantly.</p>
+
+            <!-- Progress Indicator -->
+            <div class="progress">
+                <div class="step active" id="step-1">1. Your Details</div>
+                <div class="step" id="step-2">2. ID Verification</div>
+            </div>
+
+            <!-- Step 1: User Details Form -->
+            <form class="signup-form" id="details-form">
+                <input type="text" id="first-name" placeholder="First Name" aria-label="First name" required>
+                <input type="text" id="last-name" placeholder="Last Name" aria-label="Last name" required>
+                <input type="email" id="email" placeholder="Campus Email (e.g., student@campus.edu)" aria-label="Campus email" required>
+                <input type="password" id="password" placeholder="Password (min 8 chars)" aria-label="Password" required>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" aria-label="Confirm password" required>
+                <input type="tel" id="phone" placeholder="Phone Number (e.g., 555-123-4567)" aria-label="Phone number" required>
+                <select id="campus" aria-label="Campus or organization" required>
+                    <option value="">Select Campus/Organization</option>
+                    <option value="University A">University A</option>
+                    <option value="University B">University B</option>
+                    <option value="Community College C">Community College C</option>
+                </select>
+                <textarea id="bio" placeholder="Tell us about yourself (optional)" aria-label="Profile bio"></textarea>
+                <div class="form-error" id="details-error"></div>
+                <button type="submit">Next: Verify ID</button>
+            </form>
+
+            <!-- Step 2: ID Verification Form -->
+            <form class="id-form" id="id-form" style="display: none;">
+                <p>Upload a student ID or government ID to verify your identity. This helps keep our community safe.</p>
+                <input type="file" id="id-file" accept="image/*,.pdf" aria-label="Upload ID file" required>
+                <div class="form-error" id="id-error"></div>
+                <button type="submit">Create Account</button>
+                <button type="button" onclick="backToDetails()" style="background: #6b7280; margin-top: 12px;">Back</button>
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="/login">Log In</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/about">About Us</a>
+            <a href="/faq">FAQ</a>
+            <a href="/safety">Safety</a>
+            <a href="/contact">Contact</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+        <p>© 2025 A Local Help Hub. Built for campuses, by students.</p>
+    </footer>
+
+    <!-- JavaScript for Form Handling -->
+    <script>
+        // Form Elements
+        const detailsForm = document.getElementById('details-form');
+        const idForm = document.getElementById('id-form');
+        const detailsError = document.getElementById('details-error');
+        const idError = document.getElementById('id-error');
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+
+        // Step 1: User Details Submission
+        detailsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const firstName = document.getElementById('first-name').value.trim();
+            const lastName = document.getElementById('last-name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirm-password').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const campus = document.getElementById('campus').value;
+            const bio = document.getElementById('bio').value.trim();
+
+            // Validation
+            if (!firstName || !lastName || !email || !password || !confirmPassword || !phone || !campus) {
+                showError(detailsError, 'Please fill in all required fields.');
+                return;
+            }
+            if (!email.includes('@campus.edu') && !email.includes('@university.edu')) {
+                showError(detailsError, 'Please use a valid campus email (e.g., student@campus.edu).');
+                return;
+            }
+            if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
+                showError(detailsError, 'Password must be 8+ characters with letters and numbers.');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showError(detailsError, 'Passwords do not match.');
+                return;
+            }
+            if (!/^\d{3}-\d{3}-\d{4}$/.test(phone) && !/^\d{10}$/.test(phone)) {
+                showError(detailsError, 'Please enter a valid phone number (e.g., 555-123-4567).');
+                return;
+            }
+
+            // Proceed to ID Verification
+            detailsForm.style.display = 'none';
+            idForm.style.display = 'block';
+            step1.classList.remove('active');
+            step2.classList.add('active');
+            detailsError.classList.remove('active');
+        });
+
+        // Step 2: ID Verification Submission
+        idForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const idFile = document.getElementById('id-file').files[0];
+
+            // Mock ID Validation
+            if (!idFile) {
+                showError(idError, 'Please upload an ID file.');
+                return;
+            }
+            if (!['image/jpeg', 'image/png', 'application/pdf'].includes(idFile.type)) {
+                showError(idError, 'Please upload a valid image (JPEG/PNG) or PDF.');
+                return;
+            }
+            if (idFile.size > 5 * 1024 * 1024) { // 5MB limit
+                showError(idError, 'File size must be under 5MB.');
+                return;
+            }
+
+            // Simulate API Call
+            alert('Account created successfully! Your ID is under review. You’ll be notified soon.');
+            // In real app: POST to backend
+            // fetch('/api/signup', { method: 'POST', body: new FormData() }).then(...)
+            window.location.href = '/';
+        });
+
+        // Back to Details
+        function backToDetails() {
+            idForm.style.display = 'none';
+            detailsForm.style.display = 'block';
+            step2.classList.remove('active');
+            step1.classList.add('active');
+            idError.classList.remove('active');
+        }
+
+        // Show Error
+        function showError(element, message) {
+            element.textContent = message;
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>

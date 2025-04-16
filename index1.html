@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A Local Help Hub connects your campus instantly. Request or offer help—borrow a charger, share notes, or get emergency support—with chat and call options. Join free!">
+    <meta name="keywords" content="campus help, peer-to-peer assistance, real-time support, instant messaging, emergency aid">
+    <meta name="author" content="A Local Help Hub">
+    <title>A Local Help Hub | Real-Time Campus Assistance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            background: #f8fafc;
+        }
+        a, button {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+        .emergency-mode body {
+            border-top: 4px solid #dc2626;
+        }
+        .emergency-mode .navbar {
+            background: #fef2f2;
+        }
+        .emergency-mode .request.emergency {
+            border-left: 4px solid #dc2626;
+            background: #fef2f2;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            color: #2563eb;
+        }
+        .navbar .nav-links a {
+            margin: 0 16px;
+            font-size: 16px;
+            color: #1a1a1a;
+            transition: color 0.3s;
+        }
+        .navbar .nav-links a:hover {
+            color: #2563eb;
+        }
+        .navbar .nav-buttons a, .navbar .nav-buttons button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-left: 8px;
+            font-size: 14px;
+        }
+        .navbar .nav-buttons .login {
+            border: 1px solid #2563eb;
+            color: #2563eb;
+        }
+        .navbar .nav-buttons .signup {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+        }
+        .navbar .nav-buttons .emergency-btn {
+            background: #dc2626;
+            color: #fff;
+            border: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: #fff;
+            text-align: center;
+            padding: 80px 24px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero h1 {
+            font-size: 40px;
+            margin-bottom: 16px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 24px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .cta {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #fff;
+            color: #2563eb;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 8px;
+            transition: transform 0.2s;
+        }
+        .hero .cta:hover {
+            transform: scale(1.05);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 64px 24px;
+            text-align: center;
+        }
+        .section h2 {
+            font-size: 32px;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+        }
+
+        /* Live Feed */
+        .live-feed {
+            background: #fff;
+        }
+        .live-feed .controls {
+            max-width: 1200px;
+            margin: 0 auto 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .live-feed .controls select, .live-feed .controls button {
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .live-feed .controls button {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+        }
+        .live-feed .requests {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            gap: 16px;
+        }
+        .live-feed .request {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 6px;
+            text-align: left;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .live-feed .request.emergency {
+            border-left: 4px solid #dc2626;
+        }
+        .live-feed .request h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #2563eb;
+        }
+        .live-feed .request p {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .live-feed .request .meta {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .live-feed .request .respond-btn {
+            padding: 8px 16px;
+            background: #2563eb;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        /* Chat Modal */
+        .chat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .chat-modal.active {
+            display: flex;
+        }
+        .chat-box {
+            background: #fff;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 80vh;
+        }
+        .chat-box .header {
+            background: #2563eb;
+            color: #fff;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-box .header h3 {
+            font-size: 18px;
+        }
+        .chat-box .header button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+        }
+        .chat-box .messages {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+        .chat-box .messages .message {
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            max-width: 80%;
+        }
+        .chat-box .messages .message.sent {
+            background: #2563eb;
+            color: #fff;
+            margin-left: auto;
+        }
+        .chat-box .messages .message.received {
+            background: #e5e7eb;
+            color: #1a1a1a;
+        }
+        .chat-box .input {
+            display: flex;
+            border-top: 1px solid #e5e7eb;
+            padding: 12px;
+        }
+        .chat-box .input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px 0 0 6px;
+            font-size: 14px;
+        }
+        .chat-box .input button {
+            padding: 10px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+        }
+        .chat-box .call-btn {
+            padding: 8px 16px;
+            background: #16a34a;
+            color: #fff;
+            border-radius: 6px;
+            margin: 12px;
+            text-align: center;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 48px 24px;
+            text-align: center;
+        }
+        .footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .footer .footer-links a {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+        .footer .newsletter input {
+            padding: 12px;
+            border: none;
+            border-radius: 6px 0 0 6px;
+            width: 240px;
+            font-size: 14px;
+        }
+        .footer .newsletter button {
+            padding: 12px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .navbar .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+            .live-feed .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .live-feed .request {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+            .live-feed .request .respond-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .chat-box {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="/" class="logo">A Local Help Hub "AroundU"</a>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="/how-it-works">How It Works</a>
+            <a href="/community">Community</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <div class="nav-buttons">
+            <button class="emergency-btn" onclick="toggleEmergencyMode()">Emergency Mode</button>
+            <a href="login.html" class="login">Log In</a>
+            <a href="signup.html" class="signup">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Connect Instantly for Help or Support</h1>
+        <p>A Local Help Hub lets you request or offer assistance on campus—borrow a charger, share notes, or get emergency help—with real-time chat and calls.</p>
+        <a href="signup.html" class="cta">Join for Free</a>
+        <a href="#live-feed" class="cta">See Live Requests</a>
+    </section>
+
+    <!-- Live Feed -->
+    <section class="section live-feed" id="live-feed">
+        <h2>Live Community Requests</h2>
+        <div class="controls">
+            <select id="location-filter" onchange="filterRequests()">
+                <option value="">All Locations</option>
+                <option value="Library">Library</option>
+                <option value="Dorm A">Dorm A</option>
+                <option value="Dorm B">Dorm B</option>
+                <option value="Student Center">Student Center</option>
+            </select>
+            <select id="urgency-filter" onchange="filterRequests()">
+                <option value="">All Urgencies</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Emergency">Emergency</option>
+            </select>
+            <button onclick="refreshFeed()">Refresh Feed</button>
+        </div>
+        <div class="requests" id="request-feed"></div>
+    </section>
+
+    <!-- Chat Modal -->
+    <div class="chat-modal" id="chat-modal">
+        <div class="chat-box">
+            <div class="header">
+                <h3 id="chat-title">Chat with User</h3>
+                <button onclick="closeChat()">×</button>
+            </div>
+            <div class="messages" id="chat-messages">
+                <!-- Messages will be inserted here -->
+            </div>
+            <div class="input">
+                <input type="text" id="chat-input" placeholder="Type a message..." aria-label="Chat message input">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+            <button class="call-btn" onclick="initiateCall()">Call User</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/about">About Us</a>
+            <a href="/faq">FAQ</a>
+            <a href="/safety">Safety</a>
+            <a href="/contact">Contact</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+        <div class="newsletter">
+            <h3>Join Our Updates</h3>
+            <input type="email" placeholder="Your Email" aria-label="Email for newsletter">
+            <button>Subscribe</button>
+        </div>
+        <p>© 2025 A Local Help Hub. Built for campuses, by students.</p>
+    </footer>
+
+    <!-- JavaScript for Functionalities -->
+    <script>
+        // Mock Data
+        let requests = [
+            { id: 1, title: "Need a Laptop Charger", desc: "My charger broke, need one for class!", urgency: "High", location: "Library", distance: 0.2, timestamp: new Date(), user: "Jamie" },
+            { id: 2, title: "Bio 101 Notes", desc: "Missed yesterday’s lecture, anyone have notes?", urgency: "Medium", location: "Dorm A", distance: 0.5, timestamp: new Date(), user: "Alex" },
+            { id: 3, title: "Emergency: Need Food", desc: "Stuck in dorm, can someone help with food?", urgency: "Emergency", location: "Dorm B", distance: 0.7, timestamp: new Date(), user: "Sofia" },
+            { id: 4, title: "Ride to Campus", desc: "Need a lift tomorrow morning.", urgency: "Low", location: "Student Center", distance: 1.0, timestamp: new Date(), user: "Mike" },
+        ];
+
+        let currentChatUser = null;
+        let messages = JSON.parse(localStorage.getItem('messages')) || {};
+
+        // Emergency Mode
+        let isEmergencyMode = false;
+        function toggleEmergencyMode() {
+            isEmergencyMode = !isEmergencyMode;
+            document.body.classList.toggle('emergency-mode', isEmergencyMode);
+            document.querySelector('.emergency-btn').textContent = isEmergencyMode ? 'Exit Emergency Mode' : 'Emergency Mode';
+            filterRequests();
+        }
+
+        // Render Requests
+        function renderRequests(filteredRequests) {
+            const feed = document.getElementById('request-feed');
+            feed.innerHTML = '';
+            filteredRequests.forEach(req => {
+                const div = document.createElement('div');
+                div.className = `request ${req.urgency.toLowerCase()}`;
+                div.innerHTML = `
+                    <div>
+                        <h3>${req.title}</h3>
+                        <p>${req.desc}</p>
+                        <div class="meta">Urgency: ${req.urgency} | Location: ${req.location} | ${req.distance} miles away | Posted: ${new Date(req.timestamp).toLocaleTimeString()}</div>
+                    </div>
+                    <button class="respond-btn" onclick="respondToRequest('${req.id}', '${req.user}')">Respond</button>
+                `;
+                feed.appendChild(div);
+            });
+        }
+
+        // Filter Requests
+        function filterRequests() {
+            const location = document.getElementById('location-filter').value;
+            const urgency = document.getElementById('urgency-filter').value;
+            let filtered = requests;
+
+            if (isEmergencyMode) {
+                filtered = filtered.filter(req => req.urgency === 'Emergency');
+            } else {
+                if (location) filtered = filtered.filter(req => req.location === location);
+                if (urgency) filtered = filtered.filter(req => req.urgency === urgency);
+            }
+
+            renderRequests(filtered);
+        }
+
+        // Refresh Feed
+        function refreshFeed() {
+            const newRequest = {
+                id: requests.length + 1,
+                title: `New Request #${requests.length + 1}`,
+                desc: "Someone needs help nearby!",
+                urgency: ['Low', 'Medium', 'High', 'Emergency'][Math.floor(Math.random() * 4)],
+                location: ['Library', 'Dorm A', 'Dorm B', 'Student Center'][Math.floor(Math.random() * 4)],
+                distance: (Math.random() * 1).toFixed(1),
+                timestamp: new Date(),
+                user: ['Jamie', 'Alex', 'Sofia', 'Mike'][Math.floor(Math.random() * 4)]
+            };
+            requests.unshift(newRequest);
+            filterRequests();
+        }
+
+        // Respond to Request
+        function respondToRequest(requestId, user) {
+            currentChatUser = user;
+            openChat(user);
+        }
+
+        // Chat Functions
+        function openChat(user) {
+            const modal = document.getElementById('chat-modal');
+            document.getElementById('chat-title').textContent = `Chat with ${user}`;
+            modal.classList.add('active');
+            renderMessages(user);
+        }
+
+        function closeChat() {
+            const modal = document.getElementById('chat-modal');
+            modal.classList.remove('active');
+            currentChatUser = null;
+        }
+
+        function renderMessages(user) {
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML = '';
+            const userMessages = messages[user] || [
+                { text: `Hi! I saw your request. Can I help?`, sent: false, timestamp: new Date() }
+            ];
+            userMessages.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = `message ${msg.sent ? 'sent' : 'received'}`;
+                div.textContent = msg.text;
+                chatMessages.appendChild(div);
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text || !currentChatUser) return;
+
+            if (!messages[currentChatUser]) messages[currentChatUser] = [];
+            messages[currentChatUser].push({ text, sent: true, timestamp: new Date() });
+            localStorage.setItem('messages', JSON.stringify(messages));
+            renderMessages(currentChatUser);
+            input.value = '';
+
+            // Simulate reply after 1s
+            setTimeout(() => {
+                messages[currentChatUser].push({ text: `Thanks! Can you meet me soon?`, sent: false, timestamp: new Date() });
+                localStorage.setItem('messages', JSON.stringify(messages));
+                renderMessages(currentChatUser);
+            }, 1000);
+        }
+
+        // Call Function
+        function initiateCall() {
+            if (!currentChatUser) return;
+            alert(`Calling ${currentChatUser}... (Simulated call: 555-123-4567)`);
+            // In real app: integrate Twilio or VoIP
+            // window.location.href = `tel:555-123-4567`;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRequests(requests);
+            setInterval(refreshFeed, 30000);
+        });
+
+        // Handle Enter key for chat
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>

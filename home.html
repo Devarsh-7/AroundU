@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Request or offer help on A Local Help Hub. Connect instantly with your campus community—borrow a charger, share notes, or get emergency support.">
+    <meta name="keywords" content="campus help, request help, offer help, peer-to-peer assistance, student support">
+    <meta name="author" content="A Local Help Hub (AroundU)">
+    <title>Request or Offer Help | A Local Help Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        a, button {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 24px;
+            color: #2563eb;
+        }
+        .header .nav-links a {
+            margin: 0 16px;
+            font-size: 14px;
+            color: #1a1a1a;
+            transition: color 0.3s;
+        }
+        .header .nav-links a:hover {
+            color: #2563eb;
+        }
+        .header .user-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header .user-greeting {
+            font-size: 14px;
+            color: #1a1a1a;
+        }
+        .header .logout-btn {
+            padding: 8px 16px;
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .header .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Help Section */
+        .help-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+        }
+        .help-container {
+            background: #fff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .help-container h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+            text-align: center;
+        }
+        .help-container p {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .tabs .tab {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .tabs .tab.active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+        }
+
+        /* Forms */
+        .help-form {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .help-form.active {
+            display: flex;
+        }
+        .help-form input, .help-form select, .help-form textarea {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+        .help-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .help-form input:focus, .help-form select:focus, .help-form textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .help-form button {
+            padding: 12px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .help-form button:hover {
+            background: #1d4ed8;
+        }
+        .form-error {
+            color: #dc2626;
+            font-size: 14px;
+            text-align: left;
+            display: none;
+        }
+        .form-error.active {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 24px;
+            text-align: center;
+        }
+        .footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .footer .footer-links a {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+        .footer p {
+            font-size: 12px;
+            color: #d1d5db;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .header .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+            .header .user-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .help-container {
+                padding: 24px;
+            }
+            .help-container h2 {
+                font-size: 24px;
+            }
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="/dashboard" class="logo">A Local Help Hub</a>
+        <div class="nav-links">
+            <a href="/how-it-works">How It Works</a>
+            <a href="/community">Community</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <div class="user-section">
+            <span class="user-greeting">Welcome, Jamie</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <!-- Help Section -->
+    <section class="help-section">
+        <div class="help-container">
+            <h2>What Do You Need Today?</h2>
+            <p>Request help or offer support to your campus community.</p>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" onclick="showForm('request')">Request Help</div>
+                <div class="tab" onclick="showForm('offer')">Offer Help</div>
+            </div>
+
+            <!-- Request Help Form -->
+            <form class="help-form active" id="request-form">
+                <input type="text" id="request-title" placeholder="Title (e.g., Need a Laptop Charger)" aria-label="Request title" required>
+                <textarea id="request-desc" placeholder="Describe what you need (e.g., My charger broke, need one for class)" aria-label="Request description" required></textarea>
+                <select id="request-category" aria-label="Request category" required>
+                    <option value="">Select Category</option>
+                    <option value="Tech">Tech (e.g., Charger, Wi-Fi)</option>
+                    <option value="Academic">Academic (e.g., Notes, Tutoring)</option>
+                    <option value="Errands">Errands (e.g., Groceries, Rides)</option>
+                    <option value="Emergency">Emergency (e.g., Food, Medical)</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select id="request-urgency" aria-label="Request urgency" required>
+                    <option value="">Select Urgency</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Emergency">Emergency</option>
+                </select>
+                <select id="request-location" aria-label="Request location" required>
+                    <option value="">Select Location</option>
+                    <option value="Library">Library</option>
+                    <option value="Dorm A">Dorm A</option>
+                    <option value="Dorm B">Dorm B</option>
+                    <option value="Student Center">Student Center</option>
+                </select>
+                <div class="form-error" id="request-error"></div>
+                <button type="submit">Post Request</button>
+            </form>
+
+            <!-- Offer Help Form -->
+            <form class="help-form" id="offer-form">
+                <input type="text" id="offer-title" placeholder="Title (e.g., Can Share Bio 101 Notes)" aria-label="Offer title" required>
+                <textarea id="offer-desc" placeholder="Describe what you can offer (e.g., I have notes from last week’s lecture)" aria-label="Offer description" required></textarea>
+                <select id="offer-category" aria-label="Offer category" required>
+                    <option value="">Select Category</option>
+                    <option value="Tech">Tech (e.g., Charger, Wi-Fi)</option>
+                    <option value="Academic">Academic (e.g., Notes, Tutoring)</option>
+                    <option value="Errands">Errands (e.g., Groceries, Rides)</option>
+                    <option value="Emergency">Emergency (e.g., Food, Medical)</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select id="offer-urgency" aria-label="Offer urgency" required>
+                    <option value="">Select Urgency</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Emergency">Emergency</option>
+                </select>
+                <select id="offer-location" aria-label="Offer location" required>
+                    <option value="">Select Location</option>
+                    <option value="Library">Library</option>
+                    <option value="Dorm A">Dorm A</option>
+                    <option value="Dorm B">Dorm B</option>
+                    <option value="Student Center">Student Center</option>
+                </select>
+                <div class="form-error" id="offer-error"></div>
+                <button type="submit">Post Offer</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/about">About Us</a>
+            <a href="/faq">FAQ</a>
+            <a href="/safety">Safety</a>
+            <a href="/contact">Contact</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+        <p>© 2025 A Local Help Hub. Built for campuses, by students.</p>
+    </footer>
+
+    <!-- JavaScript for Form Handling -->
+    <script>
+        // Mock User (simulating logged-in state)
+        const currentUser = { name: 'Jamie', id: 'user123' }; // Replace with real auth
+
+        // Tab Switching
+        function showForm(type) {
+            const requestForm = document.getElementById('request-form');
+            const offerForm = document.getElementById('offer-form');
+            const tabs = document.querySelectorAll('.tab');
+
+            requestForm.classList.toggle('active', type === 'request');
+            offerForm.classList.toggle('active', type === 'offer');
+            tabs.forEach(tab => tab.classList.toggle('active', tab.textContent.includes(type.charAt(0).toUpperCase() + type.slice(1))));
+            clearErrors();
+        }
+
+        // Clear Errors
+        function clearErrors() {
+            document.getElementById('request-error').classList.remove('active');
+            document.getElementById('offer-error').classList.remove('active');
+        }
+
+        // Show Error
+        function showError(element, message) {
+            element.textContent = message;
+            element.classList.add('active');
+        }
+
+        // Mock Storage
+        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+
+        // Request Form Submission
+        document.getElementById('request-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('request-title').value.trim();
+            const desc = document.getElementById('request-desc').value.trim();
+            const category = document.getElementById('request-category').value;
+            const urgency = document.getElementById('request-urgency').value;
+            const location = document.getElementById('request-location').value;
+            const error = document.getElementById('request-error');
+
+            // Validation
+            if (!title || !desc || !category || !urgency || !location) {
+                showError(error, 'Please fill in all fields.');
+                return;
+            }
+            if (title.length > 50) {
+                showError(error, 'Title must be 50 characters or less.');
+                return;
+            }
+            if (desc.length > 500) {
+                showError(error, 'Description must be 500 characters or less.');
+                return;
+            }
+
+            // Simulate Submission
+            const post = {
+                id: posts.length + 1,
+                type: 'request',
+                title,
+                desc,
+                category,
+                urgency,
+                location,
+                timestamp: new Date().toISOString(),
+                user: currentUser.id
+            };
+            posts.push(post);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            alert('Request posted successfully! It’s now visible to your campus community.');
+            e.target.reset();
+            // In real app: POST to backend
+            // fetch('/api/requests', { method: 'POST', body: JSON.stringify(post) });
+        });
+
+        // Offer Form Submission
+        document.getElementById('offer-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('offer-title').value.trim();
+            const desc = document.getElementById('offer-desc').value.trim();
+            const category = document.getElementById('offer-category').value;
+            const urgency = document.getElementById('offer-urgency').value;
+            const location = document.getElementById('offer-location').value;
+            const error = document.getElementById('offer-error');
+
+            // Validation
+            if (!title || !desc || !category || !urgency || !location) {
+                showError(error, 'Please fill in all fields.');
+                return;
+            }
+            if (title.length > 50) {
+                showError(error, 'Title must be 50 characters or less.');
+                return;
+            }
+            if (desc.length > 500) {
+                showError(error, 'Description must be 500 characters or less.');
+                return;
+            }
+
+            // Simulate Submission
+            const post = {
+                id: posts.length + 1,
+                type: 'offer',
+                title,
+                desc,
+                category,
+                urgency,
+                location,
+                timestamp: new Date().toISOString(),
+                user: currentUser.id
+            };
+            posts.push(post);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            alert('Offer posted successfully! It’s now visible to your campus community.');
+            e.target.reset();
+            // In real app: POST to backend
+            // fetch('/api/offers', { method: 'POST', body: JSON.stringify(post) });
+        });
+
+        // Logout
+        function logout() {
+            // Simulate logout (clear mock session)
+            localStorage.removeItem('mockSession');
+            alert('Logged out successfully.');
+            window.location.href = '/login';
+            // In real app: clear auth token
+            // fetch('/api/logout').then(() => window.location.href = '/login');
+        }
+    </script>
+</body>
+</html>

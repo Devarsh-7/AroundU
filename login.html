@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Log in to A Local Help Hub to connect with your campus community. Request or offer help instantly—borrow a charger, share notes, or get emergency support.">
+    <meta name="keywords" content="campus login, community help login, peer-to-peer assistance, student support">
+    <meta name="author" content="A Local Help Hub">
+    <title>Log In | A Local Help Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        a, button {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+        h1, h2 {
+            font-weight: 700;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 24px;
+            color: #2563eb;
+        }
+        .header .nav-links a {
+            margin-left: 16px;
+            font-size: 14px;
+            color: #1a1a1a;
+            transition: color 0.3s;
+        }
+        .header .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        /* Login Section */
+        .login-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+        }
+        .login-container {
+            background: #fff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-container h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+        .login-container p {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #6b7280;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .login-form input {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+        .login-form input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .login-form button {
+            padding: 12px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .login-form button:hover {
+            background: #1d4ed8;
+        }
+        .login-form .forgot-password {
+            font-size: 14px;
+            color: #2563eb;
+            text-align: left;
+            margin-top: 8px;
+        }
+        .login-form .forgot-password:hover {
+            text-decoration: underline;
+        }
+        .signup-link {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .signup-link a {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 24px;
+            text-align: center;
+        }
+        .footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .footer .footer-links a {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+        .footer p {
+            font-size: 12px;
+            color: #d1d5db;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .header .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+            .login-container {
+                padding: 24px;
+            }
+            .login-container h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="/" class="logo">A Local Help Hub</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/how-it-works">How It Works</a>
+            <a href="/community">Community</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="login-section">
+        <div class="login-container">
+            <h2>Log In to Your Hub</h2>
+            <p>Access your campus community to request or offer help instantly.</p>
+            <form class="login-form" id="login-form">
+                <input type="email" id="email" placeholder="Email (e.g., student@campus.edu)" aria-label="Email address" required>
+                <input type="password" id="password" placeholder="Password" aria-label="Password" required>
+                <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+                <button type="submit">Log In</button>
+            </form>
+            <div class="signup-link">
+                Don’t have an account? <a href="/signup">Sign Up</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/about">About Us</a>
+            <a href="/faq">FAQ</a>
+            <a href="/safety">Safety</a>
+            <a href="/contact">Contact</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+        <p>© 2025 A Local Help Hub. Built for campuses, by students.</p>
+    </footer>
+
+    <!-- JavaScript for Simulated Login -->
+    <script>
+        // Simulated Login
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Mock authentication (replace with real backend call)
+            if (email && password) {
+                // Simulate checking credentials
+                if (email.includes('@campus.edu') && password.length >= 6) {
+                    alert('Login successful! Welcome back.');
+                    // Redirect to homepage or dashboard
+                    window.location.href = '/';
+                } else {
+                    alert('Invalid email or password. Use a campus email and ensure password is at least 6 characters.');
+                }
+            } else {
+                alert('Please fill in both email and password.');
+            }
+        });
+    </script>
+</body>
+</html>
